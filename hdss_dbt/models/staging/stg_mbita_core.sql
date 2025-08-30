@@ -39,3 +39,5 @@ staged as (
         "MotherId" as observation_date
     from source_data
 )
+
+select * from staged
