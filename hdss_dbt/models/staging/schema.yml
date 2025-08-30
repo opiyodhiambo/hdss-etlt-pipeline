@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: stg_average_survival_by_sex
+    description: "Staging table for average survival by sex with cleaned and typed columns"
+    columns:
+      - name: year
+        description: "Year of observation"
+      - name: sex
+        description: "Sex of the group (M/F)"
+      - name: median_survival
+        description: "Median survival time (50th percentile)"
+
+
+

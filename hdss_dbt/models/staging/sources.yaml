@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+
+  - name: mbita_core
+    description: "Raw MBITA core data as imported from Airbyte"
+    tables:
+      - name: mbita_core
+        description: "Patient-level core data"
+
+  - name: asmr
+    description: "Raw survival summary data"
+    tables:
+      - name: asmr
+        description: "Summary statistics by year/group"
+
+  - name: survival_km
+    description: "Raw Kaplan-Meier survival data"
+    tables:
+      - name: survival_km
+        description: "Time-to-event survival probabilities"
+
+  - name: seasonality
+    description: "Raw seasonality dataset"
+    tables:
+      - name: seasonality
+        description: "Seasonality values per date/category"
+
+  - name: average_survival_by_sex
+    description: "Average survival by sex imported from Airbyte"
+    tables:
+      - name: average_survival_by_sex
+        description: "Average survival statistics for males and females"
