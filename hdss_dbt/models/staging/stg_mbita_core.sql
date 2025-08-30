@@ -20,10 +20,23 @@ staged as (
         end as sex,
         "DoB" as date_of_birth,
         "EventNr" as event_count,
-        "EventCode" as event_number,
-        "EventDate" as event_code,
-        "ObservationDate" as event_date,
-        "MotherId" as observation_date
+        case "EventCode"
+            when 'BTH' then 'Births'
+            when 'DLV' then 'Delivery'
+            when 'DTH' then 'Death'
+            when 'ENT' then 'Entry'
+            when 'ENU' then 'Enumeration'
+            when 'EXT' then 'Exit'
+            when 'IMG' then 'Immigration'
+            when 'OBE' then 'Observation enddate'
+            when 'OBL' then 'Last Observation'
+            when 'OBS' then 'Observation'
+            when 'OMG' then 'Outmigration'
+            else 'Unknown'
+        end as event_code,
+        "EventDate" as event_date,
+        "ObservationDate" as observation_date,
+        "MotherId" as mother_id
     from source_data
 )
 
