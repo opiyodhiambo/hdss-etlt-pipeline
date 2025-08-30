@@ -34,7 +34,7 @@ staged as (
             when 'OBS' then 'Observation'
             when 'OMG' then 'Outmigration'
             else 'Unknown'
-        end as event_code,
+        end as event,
         "ObservationDate" as event_date,
         "MotherId" as observation_date
     from source_data
