@@ -157,3 +157,16 @@ https://docs.getdbt.com/docs/configure-your-profile
 [0m16:29:03.199348 [debug] [MainThread]: Connection 'debug' was properly closed.
 [0m16:29:03.199845 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2d954fe5d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2d954fe8d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f2d92df5090>]}
 [0m16:29:03.200346 [debug] [MainThread]: Flushing usage events
+[0m23:51:11.204850 [debug] [MainThread]: Got an exception trying to initialize tracking
+
+
+============================== 23:51:11.221253 | f0679f0a-2d4b-4c72-b57c-7a0c569a24b9 ==============================
+[0m23:51:11.221253 [info ] [MainThread]: Running with dbt=1.5.1
+[0m23:51:11.222967 [debug] [MainThread]: running dbt with arguments {'warn_error': 'None', 'log_format': 'default', 'static_parser': 'True', 'write_json': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'partial_parse': 'True', 'log_cache_events': 'False', 'profiles_dir': '/home/adventure/.dbt', 'debug': 'False', 'indirect_selection': 'eager', 'log_path': 'logs', 'quiet': 'False', 'version_check': 'True', 'no_print': 'None', 'use_experimental_parser': 'False', 'use_colors': 'True', 'send_anonymous_usage_stats': 'True', 'printer_width': '80', 'cache_selected_only': 'False', 'fail_fast': 'False', 'introspect': 'True'}
+[0m23:51:11.224209 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /home/adventure/adventure/dev/hdss_datapipeline/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m23:51:11.226454 [debug] [MainThread]: Command `dbt run` failed at 23:51:11.226011 after 0.04 seconds
+[0m23:51:11.227876 [debug] [MainThread]: Flushing usage events
