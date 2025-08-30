@@ -1,0 +1,14 @@
+version: "1"
+context:
+  active-host: "bg162.us1.dbt.com"
+  active-project: "70471823502069"
+projects:
+  - project-name: "hdss_pipeline"
+    project-id: "70471823502069"
+    account-name: "Virenta Lrd"
+    account-id: "70471823489791"
+    account-host: "bg162.us1.dbt.com"
+    token-name: "cloud-cli-9a44"
+    token-value: "dbtu_Ws1V9iQ7wkTmkjFYrcohFUFdvUUHRi32p1UT5kKXPoK0QZphV4"
+
+
