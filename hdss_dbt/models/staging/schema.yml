@@ -57,6 +57,34 @@ models:
       - name: survival_probability
         description: "Probability of survival at this time point"
 
+  - name: stg_mbita_core
+    description: "Staging table for MBITA core individual-level data with normalized sex and cleaned columns"
+    columns:
+      - name: rec_number
+        description: "Unique record identifier for the dataset"
+      - name: country_id
+        description: "Country code or identifier for the individual's location"
+      - name: centre_id
+        description: "Centre or facility ID where the record was collected"
+      - name: individual_id
+        description: "Unique identifier for the individual"
+      - name: sex
+        description: "Normalized sex of the individual (M/F/Unknown)"
+      - name: date_of_birth
+        description: "Date of birth of the individual"
+      - name: event_count
+        description: "Number of events recorded for the individual"
+      - name: event_number
+        description: "Sequence number of the event for the individual"
+      - name: event_code
+        description: "Type or code of the event (ENU, OBE, etc.)"
+      - name: event_date
+        description: "Date when the event occurred"
+      - name: observation_date
+        description: "Date when the observation was made"
+      - name: mother_id
+        description: "Identifier for the mother, if applicable"
+
 
 
 

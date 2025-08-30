@@ -12,7 +12,7 @@ with source_data as (
         y_bloc,
         time,
         survivor as survival_probability
-    from {{ source('survival_km', 'survival_km') }}
+    from {{ source ('survival_km', 'survival_km') }}
 ),
 
 converted as (
