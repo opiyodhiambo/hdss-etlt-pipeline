@@ -82,8 +82,6 @@ models:
         description: "Date when the event occurred"
       - name: observation_date
         description: "Date when the observation was made"
-      - name: mother_id
-        description: "Identifier for the mother, if applicable"
 
 
 

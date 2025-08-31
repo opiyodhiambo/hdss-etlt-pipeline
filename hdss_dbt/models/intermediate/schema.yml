@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: int_individuals
+    description: "Intermediate model that extracts distinct individuals with demographics from mbita_core"
+    columns:
+      - name: individual_id
+        description: "Unique ID for an individual"
+        tests:
+          - not_null
+          - unique
+      - name: sex
+        description: "Biological sex of the individual"
+      - name: date_of_birth
+        description: "Date of birth"
+      - name: country_id
+        description: "Country where the individual is located"
+      - name: centre_id
+        description: "Centre of observation"
+
+  - name: int_events
+    description: "Intermediate model that extracts events associated with individuals"
+    columns:
+      - name: individual_id
+        description: "Link back to individuals"
+        tests:
+          - not_null
+      - name: event_number
+       
