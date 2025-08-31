@@ -1,3 +1,4 @@
 dbt_cloud.yml
 .~*
 .venv
+.env
