@@ -1,10 +1,22 @@
+import os
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
-from airflow.operators.bash import BashOperator
+from airflow.providers.dbt.cloud.operators.dbt import DbtCloudRunJobOperator
+from dotenv import load_dotenv
 
-AIRBYTE_CONN_ID = "airbyte_conn"  # defined in Airflow Connections UI
-AIRBYTE_CONNECTION_ID = "your-airbyte-connection-uuid"  # from Airbyte UI
+# Load environment variables from .env
+load_dotenv()
+
+AIRBYTE_CONN_IDS = {
+    "average_survival_by_sex": "e7436be9-5de8-44de-8929-05d73bac60d4",
+    "mbita_core": "6a7f12ba-db96-477f-90c4-c6db7efa6438",
+    "seasonality": "239e6ecf-dfff-4e7a-9d06-e148c00b6360",
+}
+
+AIRBYTE_CONN_ID = os.getenv("AIRBYTE_CONN_ID")
+DBT_CLOUD_CONN_ID = os.getenv("DBT_CLOUD_CONN_ID")
+DBT_CLOUD_JOB_ID = os.getenv("DBT_CLOUD_JOB_ID")\
 
 default_args = {
     "owner": "opiyo",
@@ -13,38 +25,35 @@ default_args = {
 }
 
 with DAG(
-    dag_id="hdss_pipeline",
+    dag_id="hdss_multi_airbyte_dbt_cloud_operator",
     default_args=default_args,
     schedule_interval="@daily",
-    description='ETL job to process trigger the process',
+    description="Sync multiple Airbyte connections then trigger dbt Cloud job",
     start_date=days_ago(1),
     catchup=False,
 ) as dag:
 
-    # 1. Sync data with Airbyte
-    airbyte_sync = AirbyteTriggerSyncOperator(
-        task_id="airbyte_sync",
-        airbyte_conn_id=AIRBYTE_CONN_ID,
-        connection_id=AIRBYTE_CONNECTION_ID,
-        asynchronous=False,
+    # Airbyte sync tasks
+    airbyte_tasks = {}
+    for name, conn_uuid in AIRBYTE_CONN_IDS.items():
+        task = AirbyteTriggerSyncOperator(
+            task_id=f"airbyte_sync_{name}",
+            airbyte_conn_id=AIRBYTE_CONN_ID,
+            connection_id=conn_uuid,
+            asynchronous=False,
+            timeout=3600,
+            wait_seconds=10,
+        )
+        airbyte_tasks[name] = task
+
+    # dbt Cloud job
+    dbt_cloud_task = DbtCloudRunJobOperator(
+        task_id="run_dbt_cloud_job",
+        job_id=DBT_CLOUD_JOB_ID,
+        dbt_cloud_conn_id=DBT_CLOUD_CONN_ID,
+        wait_for_termination=True,
         timeout=3600,
-        wait_seconds=10,
     )
 
-    dbt_seed = BashOperator(
-        task_id="dbt_seed",
-        bash_command="cd /opt/airflow/hdss_dbt && dbt seed --profiles-dir .",
-    )
-
-    dbt_run = BashOperator(
-        task_id="dbt_run",
-        bash_command="cd /opt/airflow/hdss_dbt && dbt run --profiles-dir .",
-    )
-
-    dbt_test = BashOperator(
-        task_id="dbt_test",
-        bash_command="cd /opt/airflow/hdss_dbt && dbt test --profiles-dir .",
-    )
-
-    # Orchestration order
-    airbyte_sync >> dbt_seed >> dbt_test >> dbt_run
+    # All Airbyte syncs must finish before running dbt
+    list(airbyte_tasks.values()) >> dbt_cloud_task

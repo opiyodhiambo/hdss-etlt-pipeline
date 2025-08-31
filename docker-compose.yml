@@ -1,7 +1,9 @@
 
 x-airflow-common:
   &airflow-common
-  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.10.5}
+  build:
+    context: .
+    dockerfile: Dockerfile  
 
   environment:
     &airflow-common-env
@@ -9,14 +11,13 @@ x-airflow-common:
     
     # This is connected to my local postgres instance. Otherwise, it should be added asa service
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@host.docker.internal:${DATABASE_PORT}/${DATABASE_NAME}
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
 
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
@@ -61,6 +62,9 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    volumes:
+      - ./hdss_dag:/opt/airflow/dags
+      - ./hdss_dbt:/opt/airflow/hdss_dbt
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -102,6 +106,9 @@ services:
       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"
     restart: always
+    volumes:
+      - ./hdss_dag:/opt/airflow/dags
+      - ./hdss_dbt:/opt/airflow/hdss_dbt
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -117,6 +124,9 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    volumes:
+      - ./hdss_dag:/opt/airflow/dags
+      - ./hdss_dbt:/opt/airflow/hdss_dbt
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
