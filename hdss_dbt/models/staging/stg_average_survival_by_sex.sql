@@ -1,6 +1,4 @@
-{{config(
-    materialized='table'
-)}}
+{{ config(enabled=false) }}
 
 with source_data as (
     select

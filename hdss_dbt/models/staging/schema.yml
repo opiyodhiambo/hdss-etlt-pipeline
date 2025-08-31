@@ -43,20 +43,6 @@ models:
       - name: y_bloc
         description: "Period block identifier"
 
-  - name: stg_survival_km
-    description: "Staging table for Kaplan-Meier survival data with normalized sex and converted time"
-    columns:
-      - name: sex
-        description: "Sex of the group (M/F)"
-      - name: y_bloc
-        description: "Month-year block of observation"
-      - name: months_elapsed
-        description: "Elapsed time in months since start of y_bloc"
-      - name: years_elapsed
-        description: "Elapsed time in years since start of y_bloc"
-      - name: survival_probability
-        description: "Probability of survival at this time point"
-
   - name: stg_mbita_core
     description: "Staging table for MBITA core individual-level data with normalized sex and cleaned columns"
     columns:
@@ -76,7 +62,7 @@ models:
         description: "Number of events recorded for the individual"
       - name: event_number
         description: "Sequence number of the event for the individual"
-      - name: event_code
+      - name: event
         description: "Type or code of the event (ENU, OBE, etc.)"
       - name: event_date
         description: "Date when the event occurred"

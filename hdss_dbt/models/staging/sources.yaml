@@ -16,13 +16,6 @@ sources:
       - name: asmr
         description: "Summary statistics by year/group"
 
-  - name: survival_km
-    schema: public
-    description: "Raw Kaplan-Meier survival data"
-    tables:
-      - name: survival_km
-        description: "Time-to-event survival probabilities"
-
   - name: seasonality
     schema: public
     description: "Raw seasonality dataset"

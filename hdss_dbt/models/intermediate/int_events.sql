@@ -9,7 +9,7 @@ events as (
     select
         individual_id,
         event_number,
-        event_code,
+        event,
         event_date,
         observation_date
     from base
